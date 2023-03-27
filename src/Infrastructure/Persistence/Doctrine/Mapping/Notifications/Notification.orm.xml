@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping
+    xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity
+        name="Domains\Notifications\Models\Notification"
+        table="notifications"
+    >
+        <indexes>
+            <index columns="id"/>
+        </indexes>
+
+        <id name="uuid" column="id" type="notification_id"/>
+
+        <field name="source" type="source"/>
+        <field name="eventType" type="event_type"/>
+        <field name="variables" type="variables"/>
+
+        <many-to-one field="target" target-entity="Domains\Accounts\Models\Company\UserCompanyAccount">
+            <join-column name="target__id" on-delete="CASCADE" nullable="false"/>
+        </many-to-one>
+
+        <many-to-one field="createdBy" target-entity="Domains\Accounts\Models\User\User">
+            <join-column name="created_by__id" on-delete="SET NULL"/>
+        </many-to-one>
+
+        <field name="version" type="integer"/>
+        <field name="createdAt" type="datetime_immutable"/>
+        <field name="updatedAt" type="datetime_immutable"/>
+        <field name="displayedAt" type="datetime_immutable" nullable="true"/>
+        <field name="readAt" type="datetime_immutable" nullable="true"/>
+    </entity>
+</doctrine-mapping>
